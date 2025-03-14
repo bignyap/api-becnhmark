@@ -1,0 +1,19 @@
+services:
+  
+  postgres:
+    image: postgres:15.3-bullseye
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - 'local_postgres_data:/var/lib/postgresql/data'
+    healthcheck:
+      test: ["CMD", "pg_isready" , "-d", "postgres"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+
+volumes:
+  local_postgres_data:
+    driver: local
